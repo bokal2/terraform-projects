@@ -18,3 +18,24 @@ resource "aws_subnet" "public-subnet" {
     Name = "public-subnet"
   })
 }
+
+resource "aws_internet_gateway" "project01-igw" {
+  vpc_id = aws_vpc.project01-vpc.id
+
+  tags = merge(local.common_tags, {
+    Name = "project01-igw"
+  })
+}
+
+resource "aws_route_table" "project01-rtb" {
+  vpc_id = aws_vpc.project01-vpc.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.project01-igw.id
+  }
+
+  tags = merge(local.common_tags, {
+    Name = "project01-rtb"
+  })
+}
