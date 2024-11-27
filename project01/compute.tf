@@ -60,4 +60,8 @@ resource "aws_instance" "nginx-server" {
   tags = merge(local.common_tags, {
     Name = "project01-nginx-server"
   })
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
